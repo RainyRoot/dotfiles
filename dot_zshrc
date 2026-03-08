@@ -118,6 +118,11 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=8"
 source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 
+# chezmoi
+export PATH="$HOME/.local/bin:$PATH"
+alias cm="chezmoi"
+alias cmsync='chezmoi re-add && chezmoi cd && git add -A && git commit -m "sync: $(date +%Y-%m-%d)" && git push'
+
 # pnpm
 export PNPM_HOME="/home/rainyroot/.local/share/pnpm"
 case ":$PATH:" in
