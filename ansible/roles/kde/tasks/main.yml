@@ -10,3 +10,20 @@
     name: sddm
     enabled: yes
   become: yes
+
+- name: Create SDDM config directory
+  file:
+    path: /etc/sddm.conf.d
+    state: directory
+    mode: '0755'
+  become: yes
+
+- name: Set SDDM wallpaper to synced image
+  copy:
+    dest: /etc/sddm.conf.d/wallpaper.conf
+    content: |
+      [General]
+      Background={{ ansible_env.HOME }}/.local/share/wallpapers/backiee-338065-landscape.jpg
+      Scaling=Fill
+    mode: '0644'
+  become: yes
