@@ -1,0 +1,17 @@
+sourceDir = {{ .chezmoi.sourceDir | quote }}
+
+[data]
+    name = {{ .chezmoi.username | quote }}
+    email = "C.Wiege92@live.de"
+
+[git]
+    autoCommit = false
+    autoPush = false
+
+# Uncomment after installing age and generating a key:
+# [encryption]
+#     encryption = "age"
+#
+# [age]
+#     identity = "~/.age/key.txt"
+#     recipient = "age1<your-public-key-here>"

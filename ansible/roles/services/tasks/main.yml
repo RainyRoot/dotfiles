@@ -1,0 +1,9 @@
+---
+- name: Enable and start systemd services
+  systemd:
+    name: "{{ item }}"
+    enabled: yes
+    state: started
+  become: yes
+  loop: "{{ systemd_services }}"
+  ignore_errors: yes  # some services may not be installed on minimal systems

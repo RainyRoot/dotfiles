@@ -1,0 +1,72 @@
+# Ansible package lists for rainyroot's Arch Linux setup
+# Edit these to add/remove packages before running the playbook
+
+pacman_base:
+  - base
+  - base-devel
+  - linux
+  - linux-firmware
+  - linux-headers
+  - intel-ucode        # change to amd-ucode for AMD systems
+  - efibootmgr
+  - btrfs-progs
+  - refind             # EFI bootloader
+  - zram-generator     # compressed swap in RAM
+  - smartmontools
+  - dkms
+  - networkmanager
+  - network-manager-applet
+  - openvpn
+  - iwd                # wifi backend
+  - wireless_tools
+  - wget
+  - git
+  - zsh
+  - tmux
+  - neovim
+  - vim
+  - nano
+  - fastfetch
+  - htop
+  - xdg-utils
+
+pacman_kde:
+  - plasma-meta
+  - plasma-workspace
+  - konsole
+  - dolphin
+  - kate
+  - ark
+  - kcalc
+
+pacman_nvidia:
+  # Comment out this entire block on non-NVIDIA systems
+  - nvidia-dkms        # use nvidia-580xx-dkms if on older GPU
+  - nvidia-settings
+  - libva-nvidia-driver
+  - lib32-nvidia-utils
+  - lib32-libglvnd
+  - lib32-vulkan-icd-loader
+  - lib32-zlib
+  - lib32-libxi
+  - lib32-libxrandr
+  - lib32-libxtst
+
+pacman_dev:
+  - nodejs
+  - npm
+  - github-cli
+
+aur_packages:
+  - yay                        # AUR helper (installed first, used for rest)
+  - visual-studio-code-bin     # VS Code
+  - google-chrome
+  - obsidian                   # note-taking
+  - openrazer-daemon           # Razer peripheral support
+  - pnpm
+
+systemd_services:
+  - NetworkManager
+  - sddm                       # display manager / login screen
+  - bluetooth
+  - openrazer-daemon

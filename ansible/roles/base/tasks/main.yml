@@ -1,0 +1,30 @@
+---
+- name: Install base system packages
+  community.general.pacman:
+    name: "{{ pacman_base }}"
+    state: present
+  become: yes
+
+- name: Set zsh as default shell for user
+  user:
+    name: "{{ ansible_user_id }}"
+    shell: /usr/bin/zsh
+  become: yes
+
+- name: Install chezmoi (dotfile manager)
+  get_url:
+    url: https://get.chezmoi.io
+    dest: /tmp/install-chezmoi.sh
+    mode: '0755'
+  when: ansible_check_mode is not defined
+
+- name: Run chezmoi installer
+  shell: sh /tmp/install-chezmoi.sh -- -b ~/.local/bin
+  args:
+    creates: ~/.local/bin/chezmoi
+
+- name: Ensure ~/.local/bin is in PATH (added to .zshrc if missing)
+  lineinfile:
+    path: ~/.zshrc
+    line: 'export PATH="$HOME/.local/bin:$PATH"'
+    create: yes

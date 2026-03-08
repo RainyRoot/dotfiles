@@ -1,0 +1,12 @@
+---
+- name: Install KDE Plasma packages
+  community.general.pacman:
+    name: "{{ pacman_kde }}"
+    state: present
+  become: yes
+
+- name: Enable SDDM display manager
+  systemd:
+    name: sddm
+    enabled: yes
+  become: yes

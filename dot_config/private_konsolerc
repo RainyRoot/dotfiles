@@ -1,0 +1,30 @@
+MenuBar=Disabled
+
+[Desktop Entry]
+DefaultProfile=rainyroot.profile
+
+[General]
+ConfigVersion=1
+
+[KonsoleWindow]
+ShowWindowTitleOnTitleBar=true
+
+[MainWindow]
+MenuBar=Disabled
+
+[MainWindow][Toolbar sessionToolbar]
+IconSize=16
+ToolButtonStyle=IconOnly
+
+[Notification Messages]
+CloseAllTabs=true
+
+[SearchSettings]
+SearchReverseSearch=false
+
+[TabBar]
+ExpandTabWidth=true
+
+[Toolbar sessionToolbar]
+IconSize=16
+ToolButtonStyle=IconOnly

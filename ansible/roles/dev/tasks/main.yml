@@ -1,0 +1,47 @@
+---
+- name: Install dev packages from pacman
+  community.general.pacman:
+    name: "{{ pacman_dev }}"
+    state: present
+  become: yes
+
+- name: Install yay (AUR helper) — clone and build
+  block:
+    - name: Clone yay from AUR
+      git:
+        repo: https://aur.archlinux.org/yay.git
+        dest: /tmp/yay
+        update: yes
+
+    - name: Build and install yay
+      shell: cd /tmp/yay && makepkg -si --noconfirm
+      args:
+        creates: /usr/bin/yay
+  when: ansible_facts['packages']['yay'] is not defined
+
+- name: Install AUR packages via yay
+  shell: "yay -S --noconfirm {{ item }}"
+  loop: "{{ aur_packages | reject('equalto', 'yay') | list }}"
+  register: yay_result
+  changed_when: "'installed' in yay_result.stdout"
+  tags: aur
+
+- name: Install Oh My Zsh (if not already installed)
+  shell: |
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+  args:
+    creates: ~/.oh-my-zsh
+  environment:
+    RUNZSH: 'no'
+
+- name: Install zsh-syntax-highlighting plugin
+  git:
+    repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
+    dest: ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+    update: yes
+
+- name: Install zsh-autosuggestions plugin
+  git:
+    repo: https://github.com/zsh-users/zsh-autosuggestions.git
+    dest: ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+    update: yes

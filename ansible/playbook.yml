@@ -1,0 +1,27 @@
+---
+# rainyroot's Arch Linux setup playbook
+# Run from bootstrap.sh or manually:
+#   ansible-playbook ansible/playbook.yml [--skip-tags nvidia]
+#
+# Requires: ansible, community.general collection
+# Install collection: ansible-galaxy collection install community.general
+
+- name: Arch Linux full setup
+  hosts: localhost
+  connection: local
+
+  vars_files:
+    - vars/packages.yml
+
+  pre_tasks:
+    - name: Update pacman package database
+      community.general.pacman:
+        update_cache: yes
+      become: yes
+
+  roles:
+    - base      # system essentials, chezmoi, zsh
+    - kde       # KDE Plasma + SDDM
+    - nvidia    # NVIDIA drivers (skip with --skip-tags nvidia on non-NVIDIA)
+    - dev       # VS Code, nodejs, npm, pnpm, Oh My Zsh, AUR packages
+    - services  # enable NetworkManager, sddm, bluetooth, etc.

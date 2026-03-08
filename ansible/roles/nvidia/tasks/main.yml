@@ -1,0 +1,22 @@
+---
+# Skip this role on non-NVIDIA systems by passing --skip-tags nvidia
+- name: Install NVIDIA drivers and lib32 support
+  community.general.pacman:
+    name: "{{ pacman_nvidia }}"
+    state: present
+  become: yes
+  tags: nvidia
+
+- name: Load NVIDIA modules early in initramfs
+  lineinfile:
+    path: /etc/mkinitcpio.conf
+    regexp: '^MODULES='
+    line: 'MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)'
+  become: yes
+  tags: nvidia
+  notify: Rebuild initramfs
+
+handlers:
+  - name: Rebuild initramfs
+    command: mkinitcpio -P
+    become: yes
